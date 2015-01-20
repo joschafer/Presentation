@@ -1,0 +1,51 @@
+Moving Average Overlay
+========================================================
+author: Jeff Schafer
+date: `r date()`
+transition: rotate
+transition-speed: slow
+
+Overview
+========================================================
+
+The moving average overlay display tool allows viewing a set of time series data with an adjustable moving average diplayed over the data. 
+- It is a simple visualization of data versus trend 
+- The moving average can vary from 2 samples to 40 samples
+- All files are read from the local file system
+
+```{r, echo=FALSE}
+# Core libraires, definitions, and support functions
+library(zoo, warn.conflicts = FALSE)
+MAXROWS <- 10000
+mav <- function(x,n=5){filter(x,rep(1/n,n), sides=2)}
+
+```
+Display Example
+========================================================
+
+Here is an example of a time series display with overlay.  In this case, this is the age at death of Kings of England availble at http://robjhyndman.com/tsdldata/misc/kings.dat 
+
+```{r, echo=FALSE}
+seriesData <- read.csv("Kings.csv", nrows=MAXROWS)
+moving <- mav(seriesData, n=7)
+ts.plot(seriesData, moving, gpars = list(col = c("black", "red")))
+        
+```
+
+Value Proposition
+========================================================
+
+- The tool was originally envisioned for examining Oracle database wait events over time to look at trends versus peaks but it is flexible
+- The real value for this tool is its simplicty since anyone can create a list of numbers over time and both disply it and see its trends
+- Future improvements would be to create a tool which could directly access the data via URL or database query
+
+
+Summary
+========================================================
+
+In summary, the moving avergage overlay display tool is:
+- Simple to use
+- Has simple data preparation 
+- Built for future expansion
+
+
